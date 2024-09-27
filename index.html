@@ -80,12 +80,12 @@
         <select id="conversionType" onchange="convert()">
             <option value="meterToFpb">Meters to Flightpoint Blocks</option>
             <option value="fpbToMeter">Flightpoint Blocks to Meters</option>
-            <option value="meterToFt">Meters to Feet</option>
-            <option value="ftToMeter">Feet to Meters</option>
-            <option value="meterToCm">Meters to Centimeters</option>
-            <option value="cmToMeter">Centimeters to Meters</option>
-            <option value="meterToMm">Meters to Millimeters</option>
-            <option value="mmToMeter">Millimeters to Meters</option>
+            <option value="mmToFpb">Millimeters to Flightpoint Blocks</option>
+            <option value="fpbToMm">Flightpoint Blocks to Millimeters</option>
+            <option value="cmToFpb">Centimeters to Flightpoint Blocks</option>
+            <option value="fpbToCm">Flightpoint Blocks to Centimeters</option>
+            <option value="ftToFpb">Feet to Flightpoint Blocks</option>
+            <option value="fpbToFt">Flightpoint Blocks to Feet</option>
         </select>
         
         <!-- Result display with placeholder format -->
@@ -116,29 +116,29 @@
                         result = inputValue * 0.84;
                         displayOutput = result.toFixed(2) + ' meters';
                         break;
-                    case 'meterToFt':
-                        result = inputValue * 3.28084;
-                        displayOutput = result.toFixed(2) + ' feet';
+                    case 'mmToFpb':
+                        result = inputValue / 840; // 1 FPB = 840 mm
+                        displayOutput = result.toFixed(2) + ' flightpoint blocks';
                         break;
-                    case 'ftToMeter':
-                        result = inputValue / 3.28084;
-                        displayOutput = result.toFixed(2) + ' meters';
-                        break;
-                    case 'meterToCm':
-                        result = inputValue * 100;
-                        displayOutput = result.toFixed(2) + ' centimeters';
-                        break;
-                    case 'cmToMeter':
-                        result = inputValue / 100;
-                        displayOutput = result.toFixed(2) + ' meters';
-                        break;
-                    case 'meterToMm':
-                        result = inputValue * 1000;
+                    case 'fpbToMm':
+                        result = inputValue * 840; // 1 FPB = 840 mm
                         displayOutput = result.toFixed(2) + ' millimeters';
                         break;
-                    case 'mmToMeter':
-                        result = inputValue / 1000;
-                        displayOutput = result.toFixed(2) + ' meters';
+                    case 'cmToFpb':
+                        result = inputValue / 84; // 1 FPB = 84 cm
+                        displayOutput = result.toFixed(2) + ' flightpoint blocks';
+                        break;
+                    case 'fpbToCm':
+                        result = inputValue * 84; // 1 FPB = 84 cm
+                        displayOutput = result.toFixed(2) + ' centimeters';
+                        break;
+                    case 'ftToFpb':
+                        result = inputValue / 6.93; // 1 FPB = 6.93 ft
+                        displayOutput = result.toFixed(2) + ' flightpoint blocks';
+                        break;
+                    case 'fpbToFt':
+                        result = inputValue * 6.93; // 1 FPB = 6.93 ft
+                        displayOutput = result.toFixed(2) + ' feet';
                         break;
                     default:
                         displayOutput = '';
