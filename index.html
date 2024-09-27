@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Converter</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* Wrapper for the converter */
+        .converter-wrapper {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Input and select elements styling */
+        input, select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: #007BFF;
+        }
+
+        /* Styling the result text */
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Minimalistic title */
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="converter-wrapper">
+        <h1>Unit Converter</h1>
+        
+        <!-- Input field for number, automatically converting on typing -->
+        <input type="number" id="inputValue" placeholder="Enter value" oninput="convert()" />
+        
+        <!-- Dropdown for choosing conversion direction -->
+        <select id="conversionType" onchange="convert()">
+            <option value="meterToFpb">Meters to Flightpoint Blocks</option>
+            <option value="fpbToMeter">Flightpoint Blocks to Meters</option>
+        </select>
+        
+        <!-- Result display area -->
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function convert() {
+            const inputValue = parseFloat(document.getElementById('inputValue').value);
+            const conversionType = document.getElementById('conversionType').value;
+
+            if (isNaN(inputValue)) {
+                document.getElementById('result').innerHTML = "";
+                return;
+            }
+
+            let result;
+            if (conversionType === 'meterToFpb') {
+                // Convert meters to flightpoint blocks
+                result = inputValue / 0.84;
+                document.getElementById('result').innerHTML = `
+                    <p>${inputValue} meters = ${result.toFixed(2)} flightpoint blocks</p>
+                `;
+            } else if (conversionType === 'fpbToMeter') {
+                // Convert flightpoint blocks to meters
+                result = inputValue * 0.84;
+                document.getElementById('result').innerHTML = `
+                    <p>${inputValue} flightpoint blocks = ${result.toFixed(2)} meters</p>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
