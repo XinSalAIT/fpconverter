@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Converter</title>
     <style>
-        /* General body styling */
+        /* General styling for the page */
         body {
             font-family: 'Arial', sans-serif;
             display: flex;
@@ -17,7 +17,7 @@
             color: #333;
         }
 
-        /* Wrapper for the converter */
+        /* Styling for the converter container */
         .converter-wrapper {
             background: #fff;
             padding: 40px;
@@ -27,7 +27,7 @@
             text-align: center;
         }
 
-        /* Input and select elements styling */
+        /* Styling for the input fields and dropdown */
         input, select {
             width: 100%;
             padding: 15px;
@@ -46,7 +46,7 @@
             border-color: #007BFF;
         }
 
-        /* Styling the result text */
+        /* Styling for the result output */
         .result {
             margin-top: 20px;
             font-size: 18px;
@@ -66,16 +66,16 @@
     <div class="converter-wrapper">
         <h1>Unit Converter</h1>
         
-        <!-- Input field for number, automatically converting on typing -->
+        <!-- Input field for the number, auto converting on typing -->
         <input type="number" id="inputValue" placeholder="Enter value" oninput="convert()" />
         
-        <!-- Dropdown for choosing conversion direction -->
+        <!-- Dropdown for selecting conversion type -->
         <select id="conversionType" onchange="convert()">
             <option value="meterToFpb">Meters to Flightpoint Blocks</option>
             <option value="fpbToMeter">Flightpoint Blocks to Meters</option>
         </select>
         
-        <!-- Result display area -->
+        <!-- Result display -->
         <div class="result" id="result"></div>
     </div>
 
@@ -90,17 +90,22 @@
             }
 
             let result;
+            let displayInput = inputValue;
+            let displayOutput = '';
+
             if (conversionType === 'meterToFpb') {
                 // Convert meters to flightpoint blocks
                 result = inputValue / 0.84;
+                displayOutput = result.toFixed(2);
                 document.getElementById('result').innerHTML = `
-                    <p>${inputValue} meters = ${result.toFixed(2)} flightpoint blocks</p>
+                    <p>${displayInput} meters --> ${displayOutput} flightpoint blocks</p>
                 `;
             } else if (conversionType === 'fpbToMeter') {
                 // Convert flightpoint blocks to meters
                 result = inputValue * 0.84;
+                displayOutput = result.toFixed(2);
                 document.getElementById('result').innerHTML = `
-                    <p>${inputValue} flightpoint blocks = ${result.toFixed(2)} meters</p>
+                    <p>${displayInput} flightpoint blocks --> ${displayOutput} meters</p>
                 `;
             }
         }
