@@ -75,8 +75,8 @@
             <option value="fpbToMeter">Flightpoint Blocks to Meters</option>
         </select>
         
-        <!-- Result display -->
-        <div class="result" id="result"></div>
+        <!-- Result display with placeholder format -->
+        <div class="result" id="result">[input] --> [output]</div>
     </div>
 
     <script>
@@ -84,30 +84,26 @@
             const inputValue = parseFloat(document.getElementById('inputValue').value);
             const conversionType = document.getElementById('conversionType').value;
 
-            if (isNaN(inputValue)) {
-                document.getElementById('result').innerHTML = "";
-                return;
-            }
-
             let result;
-            let displayInput = inputValue;
+            let displayInput = '';
             let displayOutput = '';
 
-            if (conversionType === 'meterToFpb') {
-                // Convert meters to flightpoint blocks
-                result = inputValue / 0.84;
-                displayOutput = result.toFixed(2);
-                document.getElementById('result').innerHTML = `
-                    <p>${displayInput} meters --> ${displayOutput} flightpoint blocks</p>
-                `;
-            } else if (conversionType === 'fpbToMeter') {
-                // Convert flightpoint blocks to meters
-                result = inputValue * 0.84;
-                displayOutput = result.toFixed(2);
-                document.getElementById('result').innerHTML = `
-                    <p>${displayInput} flightpoint blocks --> ${displayOutput} meters</p>
-                `;
+            if (!isNaN(inputValue)) {
+                displayInput = inputValue;
+
+                if (conversionType === 'meterToFpb') {
+                    // Convert meters to flightpoint blocks
+                    result = inputValue / 0.84;
+                    displayOutput = result.toFixed(2) + ' flightpoint blocks';
+                } else if (conversionType === 'fpbToMeter') {
+                    // Convert flightpoint blocks to meters
+                    result = inputValue * 0.84;
+                    displayOutput = result.toFixed(2) + ' meters';
+                }
             }
+
+            // Update the result display
+            document.getElementById('result').innerHTML = displayInput + ' --> ' + displayOutput;
         }
     </script>
 </body>
