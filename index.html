@@ -3,150 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unit Converter</title>
+    <title>Flightpoint Block Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
     <style>
-        /* General styling for the page */
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Roboto', sans-serif;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
-            color: #333;
         }
-
-        /* Styling for the converter container */
-        .converter-wrapper {
-            background: #fff;
-            padding: 40px;
+        #converter {
+            background-color: #fff;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
             text-align: center;
         }
-
-        /* Styling for the input fields and dropdown */
-        input, select {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
             border-radius: 5px;
-            font-size: 16px;
-            color: #333;
-            background-color: #f9f9f9;
-            box-sizing: border-box;
-            outline: none;
-            transition: border-color 0.2s;
+            background-color: #007BFF;
+            color: #fff;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-
-        input:focus, select:focus {
-            border-color: #007BFF;
+        button:hover {
+            background-color: #0056b3;
         }
-
-        /* Styling for the result output */
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: 500;
-        }
-
-        /* Minimalistic title */
-        h1 {
-            font-size: 24px;
-            font-weight: 600;
-            color: #444;
-            margin-bottom: 20px;
-        }
-
-        /* Styling for the disclaimer */
-        .disclaimer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #777;
+        #output {
+            margin-top: 10px;
+            min-height: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="converter-wrapper">
-        <h1>Unit Converter</h1>
-        
-        <!-- Input field for the number, auto converting on typing -->
-        <input type="number" id="inputValue" placeholder="Enter value" oninput="convert()" />
-        
-        <!-- Dropdown for selecting conversion type -->
-        <select id="conversionType" onchange="convert()">
-            <option value="meterToFpb">Meters to Flightpoint Blocks</option>
-            <option value="fpbToMeter">Flightpoint Blocks to Meters</option>
-            <option value="mmToFpb">Millimeters to Flightpoint Blocks</option>
-            <option value="fpbToMm">Flightpoint Blocks to Millimeters</option>
-            <option value="cmToFpb">Centimeters to Flightpoint Blocks</option>
-            <option value="fpbToCm">Flightpoint Blocks to Centimeters</option>
-            <option value="ftToFpb">Feet to Flightpoint Blocks</option>
-            <option value="fpbToFt">Flightpoint Blocks to Feet</option>
+    <div id="converter">
+        <h2>Flightpoint Block Converter</h2>
+        <input type="number" id="inputValue" placeholder="Enter value">
+        <select id="unitSelect">
+            <option value="meters">Meters</option>
+            <option value="millimeters">Millimeters</option>
+            <option value="centimeters">Centimeters</option>
+            <option value="feet">Feet</option>
         </select>
-        
-        <!-- Result display with placeholder format -->
-        <div class="result" id="result">[input] --> [output]</div>
-
-        <!-- Disclaimer -->
-        <div class="disclaimer">Created by <a href="https://www.openai.com" target="_blank">ChatGPT</a></div>
+        <button id="switchButton">Convert to Flightpoint Blocks</button>
+        <div id="output"></div>
+        <p style="font-size: small; color: grey;">Disclaimer: This converter was made by ChatGPT</p>
     </div>
 
     <script>
+        let isToFlightpointBlock = true;
+
+        const inputField = document.getElementById('inputValue');
+        const unitSelect = document.getElementById('unitSelect');
+        const switchButton = document.getElementById('switchButton');
+        const output = document.getElementById('output');
+
+        inputField.addEventListener('input', convert);
+        unitSelect.addEventListener('change', convert);
+        switchButton.addEventListener('click', switchMode);
+
         function convert() {
-            const inputValue = parseFloat(document.getElementById('inputValue').value);
-            const conversionType = document.getElementById('conversionType').value;
-
-            let result;
-            let displayInput = '';
-            let displayOutput = '';
-
-            if (!isNaN(inputValue)) {
-                displayInput = inputValue;
-
-                switch (conversionType) {
-                    case 'meterToFpb':
-                        result = inputValue / 0.84;
-                        displayOutput = result.toFixed(2) + ' flightpoint blocks';
-                        break;
-                    case 'fpbToMeter':
-                        result = inputValue * 0.84;
-                        displayOutput = result.toFixed(2) + ' meters';
-                        break;
-                    case 'mmToFpb':
-                        result = inputValue / 840; // 1 FPB = 840 mm
-                        displayOutput = result.toFixed(2) + ' flightpoint blocks';
-                        break;
-                    case 'fpbToMm':
-                        result = inputValue * 840; // 1 FPB = 840 mm
-                        displayOutput = result.toFixed(2) + ' millimeters';
-                        break;
-                    case 'cmToFpb':
-                        result = inputValue / 84; // 1 FPB = 84 cm
-                        displayOutput = result.toFixed(2) + ' flightpoint blocks';
-                        break;
-                    case 'fpbToCm':
-                        result = inputValue * 84; // 1 FPB = 84 cm
-                        displayOutput = result.toFixed(2) + ' centimeters';
-                        break;
-                    case 'ftToFpb':
-                        result = inputValue / 6.93; // 1 FPB = 6.93 ft
-                        displayOutput = result.toFixed(2) + ' flightpoint blocks';
-                        break;
-                    case 'fpbToFt':
-                        result = inputValue * 6.93; // 1 FPB = 6.93 ft
-                        displayOutput = result.toFixed(2) + ' feet';
-                        break;
-                    default:
-                        displayOutput = '';
-                }
+            const inputValue = parseFloat(inputField.value);
+            if (isNaN(inputValue)) {
+                output.textContent = '';
+                return;
             }
 
-            // Update the result display
-            document.getElementById('result').innerHTML = displayInput + ' --> ' + displayOutput;
+            let convertedValue;
+            const unit = unitSelect.value;
+
+            if (isToFlightpointBlock) {
+                switch (unit) {
+                    case 'meters':
+                        convertedValue = inputValue / 0.84; // Meters to Flightpoint Blocks
+                        output.textContent = `${inputValue} Meters → ${convertedValue.toFixed(2)} Flightpoint Blocks`;
+                        break;
+                    case 'millimeters':
+                        convertedValue = inputValue / (0.84 * 1000); // Millimeters to Flightpoint Blocks
+                        output.textContent = `${inputValue} Millimeters → ${convertedValue.toFixed(2)} Flightpoint Blocks`;
+                        break;
+                    case 'centimeters':
+                        convertedValue = inputValue / (0.84 * 100); // Centimeters to Flightpoint Blocks
+                        output.textContent = `${inputValue} Centimeters → ${convertedValue.toFixed(2)} Flightpoint Blocks`;
+                        break;
+                    case 'feet':
+                        convertedValue = inputValue / (0.84 * 3.28084); // Feet to Flightpoint Blocks
+                        output.textContent = `${inputValue} Feet → ${convertedValue.toFixed(2)} Flightpoint Blocks`;
+                        break;
+                }
+            } else {
+                switch (unit) {
+                    case 'meters':
+                        convertedValue = inputValue * 0.84; // Flightpoint Blocks to Meters
+                        output.textContent = `${inputValue} Flightpoint Blocks → ${convertedValue.toFixed(2)} Meters`;
+                        break;
+                    case 'millimeters':
+                        convertedValue = inputValue * 0.84 * 1000; // Flightpoint Blocks to Millimeters
+                        output.textContent = `${inputValue} Flightpoint Blocks → ${convertedValue.toFixed(2)} Millimeters`;
+                        break;
+                    case 'centimeters':
+                        convertedValue = inputValue * 0.84 * 100; // Flightpoint Blocks to Centimeters
+                        output.textContent = `${inputValue} Flightpoint Blocks → ${convertedValue.toFixed(2)} Centimeters`;
+                        break;
+                    case 'feet':
+                        convertedValue = inputValue * 0.84 * 3.28084; // Flightpoint Blocks to Feet
+                        output.textContent = `${inputValue} Flightpoint Blocks → ${convertedValue.toFixed(2)} Feet`;
+                        break;
+                }
+            }
+        }
+
+        function switchMode() {
+            isToFlightpointBlock = !isToFlightpointBlock;
+            switchButton.textContent = isToFlightpointBlock ? 'Convert to Flightpoint Blocks' : 'Convert from Flightpoint Blocks';
+            convert(); // Update conversion output based on new mode
         }
     </script>
 </body>
