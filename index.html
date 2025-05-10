@@ -2,41 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Line Angle & Length Calculator</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      margin: 0;
       padding: 2rem;
-      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+    }
+    h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 600;
     }
     input {
-      width: 80px;
-      margin: 0.25rem;
+      width: 48%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      margin-right: 4%;
+    }
+    input:last-child {
+      margin-right: 0;
     }
     button {
-      margin-top: 1rem;
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #2563eb;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #1d4ed8;
     }
     .output {
       margin-top: 1.5rem;
-      font-weight: bold;
+      font-size: 1rem;
+      color: #111827;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <h2>2D Line Calculator</h2>
+  <div class="card">
+    <h2>Line Calculator</h2>
 
-  <label>Point A (x₁, y₁):</label><br />
-  <input type="number" id="x1" value="0.825" step="any"> 
-  <input type="number" id="y1" value="12.7" step="any"><br />
+    <label>Point A (x₁, y₁):</label>
+    <input type="number" id="x1" value="0.825" step="any" />
+    <input type="number" id="y1" value="12.7" step="any" />
 
-  <label>Point B (x₂, y₂):</label><br />
-  <input type="number" id="x2" value="1.925" step="any"> 
-  <input type="number" id="y2" value="12.55" step="any"><br />
+    <label>Point B (x₂, y₂):</label>
+    <input type="number" id="x2" value="1.925" step="any" />
+    <input type="number" id="y2" value="12.55" step="any" />
 
-  <button onclick="calculate()">Calculate</button>
+    <button onclick="calculate()">Calculate</button>
 
-  <div class="output" id="result"></div>
+    <div class="output" id="result"></div>
+  </div>
 
   <script>
     function calculate() {
@@ -47,13 +96,14 @@
 
       const dx = x2 - x1;
       const dy = y2 - y1;
-      const length = Math.sqrt(dx * dx + dy * dy);
+      const length = Math.sqrt(dx ** 2 + dy ** 2);
       const angleRad = Math.atan2(dy, dx);
       const angleDeg = angleRad * (180 / Math.PI);
 
-      document.getElementById('result').innerHTML = 
-        `Length: ${length.toFixed(4)} units<br />
-         Angle: ${angleDeg.toFixed(2)}°`;
+      document.getElementById('result').innerHTML = `
+        📏 Length: <strong>${length.toFixed(4)}</strong> units<br/>
+        📐 Angle: <strong>${angleDeg.toFixed(2)}°</strong>
+      `;
     }
   </script>
 </body>
