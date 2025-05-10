@@ -1,132 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flightpoint Block Converter</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        #converter {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: #fff;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #output {
-            margin-top: 10px;
-            min-height: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Line Angle & Length Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f4f4f4;
+    }
+    input {
+      width: 80px;
+      margin: 0.25rem;
+    }
+    button {
+      margin-top: 1rem;
+    }
+    .output {
+      margin-top: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div id="converter">
-        <h2>Flightpoint Block Converter</h2>
-        <input type="number" id="inputValue" placeholder="Enter value">
-        <select id="unitSelect">
-            <option value="meters">Meters</option>
-            <option value="millimeters">Millimeters</option>
-            <option value="centimeters">Centimeters</option>
-            <option value="feet">Feet</option>
-        </select>
-        <button id="switchButton">Convert to Flightpoint Blocks</button>
-        <div id="output"></div>
-        <p style="font-size: small; color: grey;">Disclaimer: This converter was made by ChatGPT</p>
-    </div>
+  <h2>2D Line Calculator</h2>
 
-    <script>
-        let isToFlightpointBlock = true;
+  <label>Point A (x₁, y₁):</label><br />
+  <input type="number" id="x1" value="0.825" step="any"> 
+  <input type="number" id="y1" value="12.7" step="any"><br />
 
-        const inputField = document.getElementById('inputValue');
-        const unitSelect = document.getElementById('unitSelect');
-        const switchButton = document.getElementById('switchButton');
-        const output = document.getElementById('output');
+  <label>Point B (x₂, y₂):</label><br />
+  <input type="number" id="x2" value="1.925" step="any"> 
+  <input type="number" id="y2" value="12.55" step="any"><br />
 
-        inputField.addEventListener('input', convert);
-        unitSelect.addEventListener('change', convert);
-        switchButton.addEventListener('click', switchMode);
+  <button onclick="calculate()">Calculate</button>
 
-        function convert() {
-            const inputValue = parseFloat(inputField.value);
-            if (isNaN(inputValue)) {
-                output.textContent = '';
-                return;
-            }
+  <div class="output" id="result"></div>
 
-            let convertedValue;
-            const unit = unitSelect.value;
+  <script>
+    function calculate() {
+      const x1 = parseFloat(document.getElementById('x1').value);
+      const y1 = parseFloat(document.getElementById('y1').value);
+      const x2 = parseFloat(document.getElementById('x2').value);
+      const y2 = parseFloat(document.getElementById('y2').value);
 
-            if (isToFlightpointBlock) {
-                switch (unit) {
-                    case 'meters':
-                        convertedValue = inputValue / 0.84; // Meters to Flightpoint Blocks
-                        output.textContent = `${inputValue} Meters → ${convertedValue.toFixed(2)} Flightpoint Blocks`;
-                        break;
-                    case 'millimeters':
-                        convertedValue = inputValue / (0.84 * 1000); // Millimeters to Flightpoint Blocks
-                        output.textContent = `${inputValue} Millimeters → ${convertedValue.toFixed(2)} Flightpoint Blocks`;
-                        break;
-                    case 'centimeters':
-                        convertedValue = inputValue / (0.84 * 100); // Centimeters to Flightpoint Blocks
-                        output.textContent = `${inputValue} Centimeters → ${convertedValue.toFixed(2)} Flightpoint Blocks`;
-                        break;
-                    case 'feet':
-                        convertedValue = inputValue / (0.84 * 3.28084); // Feet to Flightpoint Blocks
-                        output.textContent = `${inputValue} Feet → ${convertedValue.toFixed(2)} Flightpoint Blocks`;
-                        break;
-                }
-            } else {
-                switch (unit) {
-                    case 'meters':
-                        convertedValue = inputValue * 0.84; // Flightpoint Blocks to Meters
-                        output.textContent = `${inputValue} Flightpoint Blocks → ${convertedValue.toFixed(2)} Meters`;
-                        break;
-                    case 'millimeters':
-                        convertedValue = inputValue * 0.84 * 1000; // Flightpoint Blocks to Millimeters
-                        output.textContent = `${inputValue} Flightpoint Blocks → ${convertedValue.toFixed(2)} Millimeters`;
-                        break;
-                    case 'centimeters':
-                        convertedValue = inputValue * 0.84 * 100; // Flightpoint Blocks to Centimeters
-                        output.textContent = `${inputValue} Flightpoint Blocks → ${convertedValue.toFixed(2)} Centimeters`;
-                        break;
-                    case 'feet':
-                        convertedValue = inputValue * 0.84 * 3.28084; // Flightpoint Blocks to Feet
-                        output.textContent = `${inputValue} Flightpoint Blocks → ${convertedValue.toFixed(2)} Feet`;
-                        break;
-                }
-            }
-        }
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const length = Math.sqrt(dx * dx + dy * dy);
+      const angleRad = Math.atan2(dy, dx);
+      const angleDeg = angleRad * (180 / Math.PI);
 
-        function switchMode() {
-            isToFlightpointBlock = !isToFlightpointBlock;
-            switchButton.textContent = isToFlightpointBlock ? 'Convert to Flightpoint Blocks' : 'Convert from Flightpoint Blocks';
-            convert(); // Update conversion output based on new mode
-        }
-    </script>
+      document.getElementById('result').innerHTML = 
+        `Length: ${length.toFixed(4)} units<br />
+         Angle: ${angleDeg.toFixed(2)}°`;
+    }
+  </script>
 </body>
 </html>
